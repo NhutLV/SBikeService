@@ -54,6 +54,30 @@ module.exports = function(app) {
         });
     });
 
+    //  check favorite
+    app.post('/users/check-favorite', function(req, res) {
+        var id_user = req.body.id_user;
+        var id_biker = req.body.id_biker;
+       if (id_user === undefined || id_biker === undefined ) {
+            res.json({ error: true, message: 'Thiếu tham số' });
+        } else {
+            Favorite.findOne({
+                id_user: id_user,
+                id_biker: id_biker,
+        }, function(err, data) {
+                if (err) {
+                    res.json({ error: true, message: 'Thêm thông tin bị lỗi' });
+                } else {
+                    if(data === null){
+                        res.json({ error: false, data : 0, message: 'Thêm thông tin thành công' });
+                    }else{
+                        res.json({ error: false, data : data.is_favorite, message: 'Thêm thông tin thành công' });
+                    }
+                }
+            });
+        }
+    });
+
     //  add favorite
     app.post('/users/favorite', function(req, res) {
         var id_user = req.body.id_user;

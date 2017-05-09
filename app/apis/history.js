@@ -2,6 +2,9 @@
 
 var History = require('../models/history');
 var dateFormat = require('dateformat');
+var gcm = require('node-gcm');
+ 
+var gcm_message = new gcm.Message();
 
 module.exports = function(app) {
 
@@ -19,6 +22,7 @@ module.exports = function(app) {
         var distance = req.body.distance;
         var price = req.body.price;
         var time_spend = req.body.time_spend;
+        var token_gcm = req.body.token_gcm;
 
         console.log("id_user "+id_user);
         console.log("id_biker "+id_biker);
@@ -32,6 +36,8 @@ module.exports = function(app) {
         console.log("distance "+distance);
         console.log("price "+price);
         console.log("time_spend "+time_spend);
+
+        var message ='Vui lòng gởi lại phản hồi về chuyến đi của bạn vào lúc '+time_call;
 
         if (id_user === undefined || id_biker === undefined || time_call === undefined ||
             place_from === undefined || latitude_from === undefined || longitude_from == undefined ||
@@ -61,9 +67,23 @@ module.exports = function(app) {
                     if (err) {
                         res.json({ error: true, data: null, message: 'Tạo lịch sử thất bại' });
                     } else {
-                        console.log(data);
-                        var history = data.toObject();
-                        history.user = 'aaaaaaa';
+                        gcm_message.addData('id_history',data._id);
+                        gcm_message.addData('message', message);
+                        gcm_message.addData('title', "Sbike");
+                        gcm_message.addData('place_to',place_to);
+                        gcm_message.addData('place_from',place_from);
+                        var sender = new gcm.Sender('AIzaSyBGmoce6oxJO0wPsIhSeNpBJnWr_tcsVp0');
+ 
+                        // Add the registration tokens of the devices you want to send to
+                        var registrationTokens = [];
+                        registrationTokens.push(token_gcm);
+
+                        setTimeout(function check(){
+                            sender.sendNoRetry(gcm_message, { registrationTokens: registrationTokens }, function(err, response) {
+                            if(err) console.error(err);
+                            else console.log(response);
+                            });
+                        }, 1000);
                         res.json({ error: false, data: data, message: 'Tạo lịch sử thành công' });
                     }
                 });
@@ -74,7 +94,10 @@ module.exports = function(app) {
     app.get('/journey/:id_user', function(req, res) {
         var id = req.params.id_user;
 
-        History.find({ id_user: id }, function(err, data) {
+        History.find({ id_user: id })
+        .populate('id_biker')
+        .sort({time_call: -1})
+        .exec(function(err, data) {
             if (err) {
                 res.json({ error: true, data: null, message: 'Lấy lịch sử thất bại' });
             } else {

@@ -3,6 +3,60 @@
 var User = require('../models/user');
 module.exports = function(app) {
 
+    //sign up social facebook, gmail
+    app.post('/users/sign-up-social', function(req,res){
+        var fullname = req.body.full_name;
+        var email = req.body.email;
+        var access_token = req.body.access_token;
+        var image_avatar_path = req.body.image_avatar_path; 
+        
+        console.log("access_token "+access_token);
+        console.log("fullname "+fullname);
+        console.log("email "+email);
+
+        if(fullname === undefined || access_token === undefined){
+            res.json({error : true, message : 'Thiếu tham số'});
+        }else{
+            User.findOne({access_token: access_token, type_user: 1}, function(err,user){
+            if(err){
+                res.json({error: true, message: 'Đăng nhập thất bại'});
+            }else if(user ){
+                res.json({error: false, data: user, message: 'Đăng nhập thành công'});
+            }else{
+                 User.create({
+                    fullname : fullname,
+                    email : email,
+                    access_token : access_token,
+                    type_user: 1,
+                    image_avatar_path : image_avatar_path
+                    }, function(err,data){
+                if(err){
+                    res.json({error: true, data: null, message: 'Đăng ký tài khoản thất bại'});
+                }else{
+                    res.json({error: false, data: data, message: 'Đăng ký tài khoản thành công'});
+                }
+            });
+            }
+        });
+        }
+    });
+
+    //sign in social facebook, gmail
+    app.post('/users/sign-in-social', function(req,res){
+        var access_token = req.body.access_token;
+        if(access_token === undefined){
+            res.json({error: true, message: 'Thiếu tham số'});
+        }else{
+            User.findOne({access_token: access_token, type_user: 1}, function(err,data){
+            if(err){
+                res.json({error: true, message: 'Đăng nhập thất bại'});
+            }else{
+               res.json({error: false, data: data, message: 'Đăng nhập thành công'});
+            }
+        });
+        }
+    });
+
     //  get all user
     app.get('/users', function(req, res) {
         User.find(function(err, data) {

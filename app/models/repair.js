@@ -1,6 +1,7 @@
 'use strict'
 
 var mongoose = require('mongoose');
+var user =require("./user");
 
 var RepairSchema = new mongoose.Schema({
     name: String,
@@ -9,7 +10,9 @@ var RepairSchema = new mongoose.Schema({
     latitude: Number,
     longitude: Number,
     type_repair: Number,
-    id_user_created: mongoose.SchemaTypes.ObjectId,
+    id_user_created: {type : mongoose.SchemaTypes.ObjectId, ref : 'UserMeta'},
+    time_open : String,
+    time_close : String,
     timestamp_created: Date,
     timestamp_updated: Date
 });

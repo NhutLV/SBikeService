@@ -25,6 +25,7 @@ var UserSchema = new mongoose.Schema({
     driving_license_seri : String,
     number_card: String,
     card_number_plate_path: String,
+    type_user: Number,
     is_driving: Number,
     number_favorite: Number,
     numer_not_favorite: Number,

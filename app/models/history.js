@@ -1,10 +1,11 @@
 'use strict'
 
 var mongoose = require('mongoose');
+var User = require('./user');
 
 var historySchema = new mongoose.Schema({
     id_user: mongoose.Schema.Types.ObjectId,
-    id_biker: mongoose.Schema.Types.ObjectId,
+    id_biker: { type: mongoose.Schema.ObjectId, ref: 'UserMeta' },
     time_call: String,
     place_from: String,
     latitude_from: Number,

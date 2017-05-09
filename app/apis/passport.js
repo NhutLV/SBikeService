@@ -30,7 +30,7 @@ module.exports = function(passport) {
             return done(null, false, req.flash('message', 'Thiếu tham số'));
         }
 
-        User.findOne({ 'email': email }, function(err, user) {
+        User.findOne({ 'email': email,type_user: 0 }, function(err, user) {
             if (err) {
                 return done(err);
             }
@@ -81,6 +81,7 @@ module.exports = function(passport) {
             _user.driving_license_before_path = '';
             _user.driving_license_after_path = '';
             _user.car_number_plate_path = '';
+            _user.type_user = 0;
             _user.is_driving = 0;
             _user.is_approved = 0;
             _user.is_become = 0;           
