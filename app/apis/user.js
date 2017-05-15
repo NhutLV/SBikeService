@@ -1,6 +1,8 @@
 'use strict'
 
 var User = require('../models/user');
+var gcm = require('node-gcm');
+var gcm_message = new gcm.Message();
 module.exports = function(app) {
 
     //sign up social facebook, gmail
@@ -55,6 +57,30 @@ module.exports = function(app) {
             }
         });
         }
+    });
+
+    app.post("/users/appproved", function(req,res){
+
+        var is_approved = req.body.is_approved;
+        var id_user = req.body.id_user;
+        var token_gcm = req.body.token_gcm;
+        var sender = new gcm.Sender('AIzaSyBGmoce6oxJO0wPsIhSeNpBJnWr_tcsVp0');
+        var message = "";
+        if(is_approved == 1){
+            message ="Chúc mừng bạn đã trở thành tài xế"
+        }else{
+            message = 'Vui lòng kiểm tra lại thông tin của bạn. Chúng tôi nghĩ bạn đã nhập sai thông tin';
+        }
+        gcm_message.addData('is_approved',is_approved);
+        gcm_message.addData('message', message);
+        gcm_message.addData('title', "Sbike");
+        // Add the registration tokens of the devices you want to send to
+        var registrationTokens = [];
+        registrationTokens.push(token_gcm);
+        sender.sendNoRetry(gcm_message, { registrationTokens: registrationTokens }, function(err, response) {
+            if(err) console.error(err);
+            else console.log(response);
+         });
     });
 
     //  get all user
