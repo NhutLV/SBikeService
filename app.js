@@ -38,6 +38,7 @@ require('./app/apis/favoritebiker')(app);
 require('./app/apis/rate')(app);
 require('./app/apis/repair')(app);
 require('./app/apis/upload')(app);
+require('./app/apis/pricelist')(app);
 
 
 app.listen(port, function(err) {

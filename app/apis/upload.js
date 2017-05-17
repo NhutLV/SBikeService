@@ -17,9 +17,11 @@ var upload = multer(
 
 app.get('/', function(req, res){
     res.send(
-        '<form action="/upload" method="post" enctype="multipart/form-data">'+
-        '<input type="file" name="file">'+
-        '<input type="submit" value="Upload">'+
+        '<form action="/pricelist" method="post" >'+
+        '<input type="text" name="first_price">'+
+        '<input type="text" name="second_price">'+
+        '<input type="text" name="fee">'+
+        '<input type="submit" value="submit">'+
         '</form>'
     );
 });
