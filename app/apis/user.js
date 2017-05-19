@@ -83,6 +83,8 @@ module.exports = function(app) {
          });
     });
 
+
+
     //  get all user
     app.get('/users', function(req, res) {
         User.find(function(err, data) {
