@@ -1,7 +1,7 @@
 
 'user strict'
 var fs = require('fs');
- var express = require('express');
+var express = require('express');
 var multer  = require('multer');
 
 module.exports = function(app) {
@@ -14,17 +14,6 @@ var upload = multer(
         },
         dest: 'uploads/' }
     );
-
-app.get('/', function(req, res){
-    res.send(
-        '<form action="/pricelist" method="post" >'+
-        '<input type="text" name="first_price">'+
-        '<input type="text" name="second_price">'+
-        '<input type="text" name="fee">'+
-        '<input type="submit" value="submit">'+
-        '</form>'
-    );
-});
 
 app.post('/upload/:id', upload.single('file'), function(req, res){
   
@@ -57,6 +46,5 @@ app.get('/uploads/:file', function (req, res){
         var img = fs.readFileSync(dirname + "/uploads/" + file);
         res.writeHead(200, {'Content-Type': 'image/jpg' });
         res.end(img, 'binary');
- 
 });
 };

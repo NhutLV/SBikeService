@@ -23,7 +23,8 @@ var UserSchema = new mongoose.Schema({
     type_user: Number,
     is_driving: Number,
     is_approved: Number,
-    is_become: Number
+    is_become: Number,
+    device : String
 });
 
 //  encrypt password

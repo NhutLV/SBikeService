@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>SBike Service</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+  $(document).ready(function() {
+      $('#example').DataTable();
+  });
+  </script>
+</head>
+<body>
+  
+<div class="container">
+  <ul class="nav nav-tabs" style="margin-bottom: 30px">
+    <li ><a href="/index">User</a></li>
+    <li><a href="/history">History</a></li>
+    <li class="active"><a href="/become">Become Driver</a></li>
+    <li><a href="/repair">Repair</a></li>
+  </ul>
+  <table class="table table-striped table-bordered" id="example" >
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th>FullName</th>
+        <th>Email</th>
+        <th>Number Phone</th>
+        <th>State</th>
+        <th>View</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% i=0%>
+      <%  data.forEach(function(item){%>
+      <% i = i+1%>
+      <tr>
+        <td><%= i%></td>  
+        <td><%= item.fullname%></td>
+        <td><%= item.email%></td>
+        <td><%= item.number_phone%></td>
+          <% if(item.is_approved == 1){%>
+          <td>Tài xế</td>
+          <%}else{%>
+          <td>Chưa là tài xế</td>
+          <%}%>
+        <td><a href="/view/<%= item._id%>">View</td>
+      </tr>
+      <%})%>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

@@ -25,6 +25,8 @@ app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: fals
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+app.set("view engine","ejs");
+app.set("views","./views");
 
 //  api
 require('./app/apis/passport')(passport);
@@ -39,6 +41,11 @@ require('./app/apis/rate')(app);
 require('./app/apis/repair')(app);
 require('./app/apis/upload')(app);
 require('./app/apis/pricelist')(app);
+require('./app/apis/pricelist')(app);
+require('./app/public/users')(app);
+require('./app/public/history')(app);
+require('./app/public/repair')(app);
+require('./app/apis/demo')(app);
 
 
 app.listen(port, function(err) {

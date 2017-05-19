@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var User = require('./user');
 
 var historySchema = new mongoose.Schema({
-    id_user: mongoose.Schema.Types.ObjectId,
+    id_user: { type: mongoose.Schema.ObjectId, ref: 'UserMeta' },
     id_biker: { type: mongoose.Schema.ObjectId, ref: 'UserMeta' },
     time_call: String,
     place_from: String,
