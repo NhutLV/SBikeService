@@ -58,23 +58,32 @@ app.get('/become', function(req, res){
                     res.end();
                 }else {
                     console.log("Approved is successfully ");
-                    message ="Chúc mừng bạn đã trở thành tài xế"
-                }
+                    message ="Chúc mừng bạn đã trở thành tài xế";
+                    gcm_message.addData('is_approved',is_approved);
+                    gcm_message.addData('message', message);
+                    gcm_message.addData('title', "Sbike");
+                // Add the registration tokens of the devices you want to send to
+                var registrationTokens = [];
+                registrationTokens.push(token_gcm);
+                sender.sendNoRetry(gcm_message, { registrationTokens: registrationTokens }, function(err, response) {
+                    if(err) console.error(err);
+                    else console.log(response);
+                });}
             })
         }else{
             message = 'Vui lòng kiểm tra lại thông tin của bạn. Chúng tôi nghĩ bạn đã nhập sai thông tin';
+            gcm_message.addData('is_approved',is_approved);
+            gcm_message.addData('message', message);
+            gcm_message.addData('title', "Sbike");
+            // Add the registration tokens of the devices you want to send to
+            var registrationTokens = [];
+            registrationTokens.push(token_gcm);
+            sender.sendNoRetry(gcm_message, { registrationTokens: registrationTokens }, function(err, response) {
+                if(err) console.error(err);
+                else console.log(response);
+            });
         }
-        gcm_message.addData('is_approved',is_approved);
-        gcm_message.addData('message', message);
-        gcm_message.addData('title', "Sbike");
-        // Add the registration tokens of the devices you want to send to
-        var registrationTokens = [];
-        registrationTokens.push(token_gcm);
-        sender.sendNoRetry(gcm_message, { registrationTokens: registrationTokens }, function(err, response) {
-            if(err) console.error(err);
-            else console.log(response);
-         });
-         res.redirect("/");
+         res.redirect("/become");
     });
 
 }

@@ -16,6 +16,7 @@ var historySchema = new mongoose.Schema({
     distance: Number,
     price: Number,
     time_spend: Number,
+    token_fcm : String
 });
 
 module.exports = mongoose.model('HistoryMeta', historySchema);

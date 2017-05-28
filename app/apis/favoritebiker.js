@@ -42,7 +42,8 @@ module.exports = function(app) {
     app.get('/users/favorite/:id_user', function(req, res) {
 
         Favorite.find({
-            id_user: req.params.id_user
+            id_user: req.params.id_user,
+            is_favorite : 1
         })
         .populate('id_biker')
         .exec(function(err, data) {
@@ -89,7 +90,7 @@ module.exports = function(app) {
         } else {
             Favorite.findOneAndUpdate({
                 id_user: id_user,
-                id_biker: id_biker,
+                id_biker: id_biker
         },{  is_favorite: parseInt(is_favorite) }, {upsert:true}, function(err, data) {
                 if (err) {
                     res.json({ error: true, message: 'Thêm thông tin bị lỗi' });
