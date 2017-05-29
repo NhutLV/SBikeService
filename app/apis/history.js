@@ -46,10 +46,6 @@ module.exports = function(app) {
             distance === undefined || price === undefined || time_spend === undefined) {
             res.json({ error: true, data: null, message: 'Thiếu tham số' });
         } else {
-            process.env.TZ = 'HaNoi/VietNam';
-            process.env.TZ = 'America/Los_Angeles';
-
-            console.log(new Date().toString());
             History.create({
                     id_user: id_user,
                     id_biker: id_biker,

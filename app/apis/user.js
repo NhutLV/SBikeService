@@ -239,6 +239,7 @@ module.exports = function(app) {
     //  update information for become driver
     app.post('/users/become-driver', function(req, res) {
         var id_user = req.body.id_user;
+        var token_fcm = req.body.token_fcm;
         // var identification_card_before_path = req.body.identification_card_before_path;
         // var identification_card_after_path = req.body.identification_card_after_path;
         var identification_number = req.body.identification_number;
@@ -269,7 +270,8 @@ module.exports = function(app) {
                 driving_license_number: driving_license_number,
                 driving_license_seri: driving_license_seri,
                 number_card: number_card,
-                is_become: is_become
+                is_become: is_become,
+                token_fcm: token_fcm
             },{ new: true }, function(err, data) {
                 if (err) {
                     console.log(err);
